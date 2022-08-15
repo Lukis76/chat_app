@@ -1,4 +1,6 @@
+
 {
+  "import": "import",
   "trailingComma": "none",
   "tabWidth": 2,
   "semi": false,

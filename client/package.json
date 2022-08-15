@@ -20,7 +20,12 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "standard"
+    "extends": "standard",
+    "rules": {
+      "import/no-named-default": "off",
+      "no-unused-vars": "off"
+
+    }
   },
   "browserslist": {
     "production": [

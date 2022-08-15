@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { SvgHermes } from '../assets/SvgHermes'
-import toast from 'react-hot-toast'
+// import toast from 'react-hot-toast'
 
 export const Register = () => {
   const [values, setValues] = useState({
@@ -14,7 +14,7 @@ export const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    handleValidation()
+    // handleValidation()
     console.log('submit')
   }
 
@@ -27,7 +27,7 @@ export const Register = () => {
     } else if (password.length < 8) {
       return 'Password must be at least 6 characters'
     } else if (password !== confirmPassword) {
-      toast('passwod incorrecto gil...')
+      // toast('passwod incorrecto gil...')
       return 'Passwords do not match'
     }
   }

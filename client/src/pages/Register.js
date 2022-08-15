@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { SvgHermes } from '../assets/SvgHermes'
-// import toast from 'react-hot-toast'
+import { SvgCheck } from '../assets/SvgCheck'
+import { SvgDisCheck } from '../assets/SvgDisCheck'
 
 export const Register = () => {
   const [values, setValues] = useState({
@@ -18,18 +19,15 @@ export const Register = () => {
     console.log('submit')
   }
 
-  const handleValidation = () => {
-    const { username, email, password, confirmPassword } = values
-    if (username.length < 6) {
-      return 'Username must be at least 3 characters'
-    } else if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
-      return 'Email is not valid'
-    } else if (password.length < 8) {
-      return 'Password must be at least 6 characters'
-    } else if (password !== confirmPassword) {
-      // toast('passwod incorrecto gil...')
-      return 'Passwords do not match'
-    }
+  const verificacion = {
+    username: values.username.length > 6,
+    email:
+      values.email.includes('@') && values.email.includes('.') &&
+      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(values.email),
+    password: values.password.length > 6,
+    confirmPassword:
+      values.confirmPassword === values.password &&
+      values.confirmPassword.length > 6
   }
 
   const handleChange = (e) => {
@@ -44,32 +42,44 @@ export const Register = () => {
           <SvgHermes />
           <h1>Hermes</h1>
         </Head>
-        <input
-          type="text"
-          placeholder="UserName"
-          name="username"
-          autoComplete="on"
-          onChange={(e) => handleChange(e)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          autoComplete="on"
-          onChange={(e) => handleChange(e)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          onChange={(e) => handleChange(e)}
-        />
-        <input
-          type="password"
-          placeholder="ConfirmPassword"
-          name="confirmPassword"
-          onChange={(e) => handleChange(e)}
-        />
+        <Inputs>
+          <input
+            type="text"
+            placeholder="UserName"
+            name="username"
+            autoComplete="on"
+            onChange={(e) => handleChange(e)}
+          />
+          {verificacion.username ? <SvgCheck /> : <SvgDisCheck />}
+        </Inputs>
+        <Inputs>
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            autoComplete="on"
+            onChange={(e) => handleChange(e)}
+          />
+          {verificacion.email ? <SvgCheck /> : <SvgDisCheck />}
+        </Inputs>
+        <Inputs>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={(e) => handleChange(e)}
+          />
+          {verificacion.password ? <SvgCheck /> : <SvgDisCheck />}
+        </Inputs>
+        <Inputs>
+          <input
+            type="password"
+            placeholder="ConfirmPassword"
+            name="confirmPassword"
+            onChange={(e) => handleChange(e)}
+          />
+          {verificacion.confirmPassword ? <SvgCheck /> : <SvgDisCheck />}
+        </Inputs>
         <button type="submit">Create User</button>
         <span>
           already have an account ? <Link to="/login">Login</Link>
@@ -103,6 +113,7 @@ const FromConteiner = styled.div`
       color: white;
       width: 100%;
       font-size: 1rem;
+      margin-right: 0.6rem;
       &:focus {
         /* outline: none; */
       }
@@ -144,4 +155,10 @@ const Head = styled.div`
     color: white;
     text-transform: uppercase;
   }
+`
+const Inputs = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `

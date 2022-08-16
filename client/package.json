@@ -20,7 +20,21 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "standard",
+    "extends":["standard",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:import/typescript",
+      "plugin:import/first",
+      "plugin:import/order",
+      "plugin:import/named",
+      "plugin:import/namespace",
+      "plugin:import/default",
+      "plugin:import/exports"],
+    "parser": "babel-eslint",
+
     "rules": {
       "import/no-named-default": "off",
       "no-unused-vars": "off"

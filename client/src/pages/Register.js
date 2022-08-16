@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { SvgHermes } from '../assets/SvgHermes'
-import { SvgCheck } from '../assets/SvgCheck'
-import { SvgDisCheck } from '../assets/SvgDisCheck'
+import axios from 'axios'
+import { RegisterRoute } from '../utils/ApiRoutes'
 
 export const Register = () => {
   const [values, setValues] = useState({
@@ -13,36 +15,59 @@ export const Register = () => {
     confirmPassword: ''
   })
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // handleValidation()
-    console.log('submit')
+  const toastOptions = {
+    position: 'top-right',
+    autoClose: 5000,
+    pauseOnHover: true,
+    draggable: true,
+    closeOnClick: true,
+    theme: 'dark'
   }
 
-  const verificacion = {
-    username: values.username.length > 6,
-    email:
-      values.email.includes('@') && values.email.includes('.') &&
-      !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(values.email),
-    password: values.password.length > 6,
-    confirmPassword:
-      values.confirmPassword === values.password &&
-      values.confirmPassword.length > 6
+  const handleValidation = () => {
+    const { username, email, password, confirmPassword } = values
+
+    if (username.length < 6 || !username) {
+      toast.error('Username debe contener mas de 6 characters', toastOptions)
+      return false
+    } else if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+      toast.error('Email no valido', toastOptions)
+      return false
+    } else if (password.length < 8) {
+      toast.error('Password debe contener mas de 8 characters', toastOptions)
+      return false
+    } else if (confirmPassword !== password) {
+      toast.error('Las contraseñas no coinciden', toastOptions)
+      return false
+    }
+    return true
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (handleValidation()) {
+      console.log("in validation")
+      const { username, email, password } = values
+      const { data } = await axios.post(RegisterRoute, {
+        username,
+        email,
+        password
+      })
+    }
   }
 
   const handleChange = (e) => {
-    console.log(e.target.name, ':', e.target.value)
     setValues({ ...values, [e.target.name]: e.target.value })
   }
 
   return (
-    <FromConteiner>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <Head>
-          <SvgHermes />
-          <h1>Hermes</h1>
-        </Head>
-        <Inputs>
+    <Fragment>
+      <FromConteiner>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <Head>
+            <SvgHermes />
+            <h1>Hermes</h1>
+          </Head>
           <input
             type="text"
             placeholder="UserName"
@@ -50,9 +75,6 @@ export const Register = () => {
             autoComplete="on"
             onChange={(e) => handleChange(e)}
           />
-          {verificacion.username ? <SvgCheck /> : <SvgDisCheck />}
-        </Inputs>
-        <Inputs>
           <input
             type="email"
             placeholder="Email"
@@ -60,32 +82,26 @@ export const Register = () => {
             autoComplete="on"
             onChange={(e) => handleChange(e)}
           />
-          {verificacion.email ? <SvgCheck /> : <SvgDisCheck />}
-        </Inputs>
-        <Inputs>
           <input
             type="password"
             placeholder="Password"
             name="password"
             onChange={(e) => handleChange(e)}
           />
-          {verificacion.password ? <SvgCheck /> : <SvgDisCheck />}
-        </Inputs>
-        <Inputs>
           <input
             type="password"
             placeholder="ConfirmPassword"
             name="confirmPassword"
             onChange={(e) => handleChange(e)}
           />
-          {verificacion.confirmPassword ? <SvgCheck /> : <SvgDisCheck />}
-        </Inputs>
-        <button type="submit">Create User</button>
-        <span>
-          already have an account ? <Link to="/login">Login</Link>
-        </span>
-      </form>
-    </FromConteiner>
+          <button type="submit">Create User</button>
+          <span>
+            already have an account ? <Link to="/login">Login</Link>
+          </span>
+        </form>
+      </FromConteiner>
+      <ToastContainer />
+    </Fragment>
   )
 }
 
@@ -114,9 +130,6 @@ const FromConteiner = styled.div`
       width: 100%;
       font-size: 1rem;
       margin-right: 0.6rem;
-      &:focus {
-        /* outline: none; */
-      }
     }
     button {
       border: none;
@@ -155,10 +168,4 @@ const Head = styled.div`
     color: white;
     text-transform: uppercase;
   }
-`
-const Inputs = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 `

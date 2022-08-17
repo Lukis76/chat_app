@@ -1,13 +1,14 @@
 import React, { Fragment, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { SvgHermes } from '../assets/SvgHermes'
 import axios from 'axios'
 import { RegisterRoute } from '../utils/ApiRoutes'
 
 export const Register = () => {
+  const navigate = useNavigate()
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -46,13 +47,19 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (handleValidation()) {
-      console.log("in validation")
+      console.log('in validation')
       const { username, email, password } = values
       const { data } = await axios.post(RegisterRoute, {
         username,
         email,
         password
       })
+      if (data.status === false) {
+        toast.error(data.msg, toastOptions)
+      } else if (data.status === true) {
+        localStorage.setItem('chat-app-user', JSON.stringify(data.user))
+        navigate("/")
+      }
     }
   }
 

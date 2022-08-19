@@ -4,12 +4,13 @@
   "private": true,
   "dependencies": {
     "axios": "^0.27.2",
+    "buffer": "^6.0.3",
     "eslint": "^8.22.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "react-toastify": "8.1.0",
     "react-scripts": "0.9.1",
+    "react-toastify": "8.1.0",
     "standard": "^17.0.0",
     "styled-components": "^5.3.5"
   },
@@ -20,7 +21,8 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends":["standard",
+    "extends": [
+      "standard",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
       "plugin:jsx-a11y/recommended",
@@ -32,9 +34,9 @@
       "plugin:import/named",
       "plugin:import/namespace",
       "plugin:import/default",
-      "plugin:import/exports"],
+      "plugin:import/exports"
+    ],
     "parser": "babel-eslint",
-
     "rules": {
       "import/no-named-default": "off",
       "no-unused-vars": "off"

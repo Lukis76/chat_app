@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { SvgHermes } from '../assets/SvgHermes'
 import axios from 'axios'
 import { LoginRoute } from '../utils/ApiRoutes'
+import { toastOptions} from '../components/toast'
+
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -14,14 +16,14 @@ export const Login = () => {
     password: ''
   })
 
-  const toastOptions = {
-    position: 'top-right',
-    autoClose: 5000,
-    pauseOnHover: true,
-    draggable: true,
-    closeOnClick: true,
-    theme: 'dark'
-  }
+  // const toastOptions = {
+  //   position: 'top-right',
+  //   autoClose: 5000,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   closeOnClick: true,
+  //   theme: 'dark'
+  // }
 
   useEffect(() => {
     const user = localStorage.getItem('chat-app-user')

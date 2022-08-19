@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link, useNavigate } from 'react-router-dom'
@@ -22,6 +22,13 @@ export const Login = () => {
     closeOnClick: true,
     theme: 'dark'
   }
+
+  useEffect(() => {
+    const user = localStorage.getItem('chat-app-user')
+    if (user) {
+      navigate('/')
+    }
+  } ,[])
 
   const handleValidation = () => {
     const { username, password } = values

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link, useNavigate } from 'react-router-dom'
@@ -25,13 +25,24 @@ export const Register = () => {
     theme: 'dark'
   }
 
+  useEffect(() => {
+    const user = localStorage.getItem('chat-app-user')
+    if (user) {
+      navigate('/')
+    }
+  }, [])
+
   const handleValidation = () => {
     const { username, email, password, confirmPassword } = values
 
     if (username.length < 6 || !username) {
       toast.error('Username debe contener mas de 6 characters', toastOptions)
       return false
-    } else if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+    } else if (
+      email.includes('@') === false ||
+      email.includes('.') === false ||
+      !email
+    ) {
       toast.error('Email no valido', toastOptions)
       return false
     } else if (password.length < 8) {
@@ -58,7 +69,7 @@ export const Register = () => {
         toast.error(data.msg, toastOptions)
       } else if (data.status === true) {
         localStorage.setItem('chat-app-user', JSON.stringify(data.user))
-        navigate("/")
+        navigate('/')
       }
     }
   }

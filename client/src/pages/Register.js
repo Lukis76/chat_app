@@ -134,6 +134,7 @@ const FromConteiner = styled.div`
       background: transparent;
       padding: 0.5rem;
       color: white;
+      min-width: 18rem;
       width: 100%;
       font-size: 1rem;
       margin-right: 0.6rem;

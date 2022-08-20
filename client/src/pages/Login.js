@@ -16,15 +16,6 @@ export const Login = () => {
     password: ''
   })
 
-  // const toastOptions = {
-  //   position: 'top-right',
-  //   autoClose: 5000,
-  //   pauseOnHover: true,
-  //   draggable: true,
-  //   closeOnClick: true,
-  //   theme: 'dark'
-  // }
-
   useEffect(() => {
     const user = localStorage.getItem('chat-app-user')
     if (user) {

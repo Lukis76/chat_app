@@ -19,6 +19,10 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Twitt',
   }],
+  isAvatarImageSet: {
+    type: Boolean,
+    default: false,
+  },
   avatarImage: {
     type: String,
     default:

@@ -13,28 +13,29 @@ import loader from '../assets/loader.gif'
 
 export const SetAvatar = () => {
   const api = 'https://api.multiavatar.com/45678945'
-
+  const reactKey = localStorage.getItem('chat-app-user')
   const navigate = useNavigate()
   const [avatars, setAvatars] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedAvatar, setSelectedAvatar] = useState(undefined)
 
-  useEffect(() => {
-    const user = localStorage.getItem('chat-app-user')
-    if (!user) {
+  useEffect(() => {(async() => {
+    if (!reactKey) {
       navigate('/login')
     }
-  } ,[])
+  })()} ,[])
 
   const setProfilePicture = async () => {
     if (selectedAvatar === undefined) {
       toast.error('Please select an avatar', toastOptions)
     } else {
-      const user = await JSON.parse(localStorage.getItem('chat-app-user'))
+      console.log("arrancando");
+      const user = await JSON.parse(reactKey)
+      console.log("segundo")
       const { data } = await axios.post(`${SetAvatarRoute}/${user._id}`, {
         image: avatars[selectedAvatar]
       })
-
+      console.log(data);
       if (data.isSet) {
         user.isAvatarImageSet = true
         user.avatarImage = data.image

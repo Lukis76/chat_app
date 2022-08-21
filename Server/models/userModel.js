@@ -15,10 +15,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  twitts: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Twitt',
-  }],
+  // twitts: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Twitt',
+  // }],
   isAvatarImageSet: {
     type: Boolean,
     default: false,

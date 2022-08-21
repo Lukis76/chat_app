@@ -6,8 +6,7 @@ import styled from 'styled-components'
 import { SvgHermes } from '../assets/SvgHermes'
 import axios from 'axios'
 import { LoginRoute } from '../utils/ApiRoutes'
-import { toastOptions} from '../components/toast'
-
+import { toastOptions } from '../components/toast'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -21,12 +20,12 @@ export const Login = () => {
     if (user) {
       navigate('/')
     }
-  } ,[])
+  }, [])
 
   const handleValidation = () => {
     const { username, password } = values
-console.log("validando por aca");
-    if ((username === '') || (password === '')) {
+    console.log('validando por aca')
+    if (username === '' || password === '') {
       toast.error('Email and password is required', toastOptions)
       return false
     }
@@ -44,8 +43,11 @@ console.log("validando por aca");
       })
       if (data.status === false) {
         toast.error(data.msg, toastOptions)
-      } else if (data.status === true) {
-        localStorage.setItem('chat-app-user', JSON.stringify(data.user))
+      }
+      if (data.status === true) {
+        console.log(data)
+        console.log(JSON.stringify(data.usernameCheck))
+        localStorage.setItem('chat-app-user', JSON.stringify(data.usernameCheck))
         navigate('/')
       }
     }

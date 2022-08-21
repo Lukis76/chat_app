@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Fragment, useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -8,7 +7,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { SetAvatarRoute } from '../utils/ApiRoutes'
 import { toastOptions } from '../components/toast'
-import { Buffer } from 'buffer'
+const Buffer = require( 'buffer/').Buffer
 import loader from '../assets/loader.gif'
 
 export const SetAvatar = () => {
@@ -19,30 +18,32 @@ export const SetAvatar = () => {
   const [loading, setLoading] = useState(true)
   const [selectedAvatar, setSelectedAvatar] = useState(undefined)
 
-  useEffect(() => {(async() => {
-    if (!reactKey) {
-      navigate('/login')
-    }
-  })()} ,[])
+  useEffect(() => {
+    ;(async () => {
+      if (!reactKey) {
+        navigate('/login')
+      }
+    })()
+  }, [])
 
   const setProfilePicture = async () => {
     if (selectedAvatar === undefined) {
       toast.error('Please select an avatar', toastOptions)
     } else {
-      console.log("arrancando");
+      console.log('arrancando')
       const user = await JSON.parse(reactKey)
-      console.log("segundo")
+      console.log('segundo')
       const { data } = await axios.post(`${SetAvatarRoute}/${user._id}`, {
         image: avatars[selectedAvatar]
       })
-      console.log(data);
+      console.log(data)
       if (data.isSet) {
         user.isAvatarImageSet = true
         user.avatarImage = data.image
         localStorage.setItem('chat-app-user', JSON.stringify(user))
         navigate('/')
       } else {
-        toast.error("Error setting avatar. Please try again", toastOptions)
+        toast.error('Error setting avatar. Please try again', toastOptions)
       }
     }
   }

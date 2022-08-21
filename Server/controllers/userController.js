@@ -35,7 +35,6 @@ module.exports.register = async (req, res, next) => {
   }
 }
 
-
 module.exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body
@@ -54,7 +53,7 @@ module.exports.login = async (req, res, next) => {
       })
     }
     delete usernameCheck.password
-    
+
     return res.json({
       status: true,
       usernameCheck,
@@ -70,16 +69,27 @@ module.exports.setAvatar = async (req, res, next) => {
     const avatarImage = req.body.image
     const userData = await User.findByIdAndUpdate(userId, {
       isAvatarImageSet: true,
-      avatarImage
+      avatarImage,
     })
     return res.json({
       isSet: userData.isAvatarImageSet,
       image: userData.avatarImage,
     })
-
   } catch (error) {
     next(error)
   }
-    
-  
+}
+
+module.exports.getaAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({ _id: { $ne: req.params.id } }).select(
+      'email',
+      'username',
+      'avatarImage',
+      '_id'
+    )
+    return res.json(users)
+  } catch (error) {
+    next(error)
+  }
 }

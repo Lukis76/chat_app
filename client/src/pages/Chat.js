@@ -11,43 +11,34 @@ export const Chat = () => {
   const [currentUser, setCurrentUser] = useState(undefined)
 
   useEffect(() => {
-    if (!localStorage.getItem('chat-app-user')) navigate('/login')
-    else {
-      localStorage
-        .getItem('chat-app-user')
-        .then((res) => {
-          JSON.parse(res)
-        })
-        .then((user) => {
-          setCurrentUser(user)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
+    ;(async () => {
+      if (!localStorage.getItem('chat-app-user')) navigate('/login')
+      else {
+        const dat = await JSON.parse(localStorage.getItem('chat-app-user'))
+        setCurrentUser(dat)
+      }
+    })()
   }, [])
 
   useEffect(() => {
-    if (currentUser) {
-      if (currentUser.isAvatarImageSet) {
-        axios
-          .get(`${AllUsersRoute}/${currentUser._id}`)
-          .then((res) => {
-            setContacts(res.data)
-          })
-          .catch((err) => {
-            console.error(err)
-          })
-      }else {
-        navigate('/setAvatar')
+    ;(async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          // console.log("lalolanda", currentUser)
+          const {data} = await axios.get(`${AllUsersRoute}/${currentUser.id}`)
+          // console.log("chevere", data)
+          setContacts(data)
+        } else {
+          navigate('/setAvatar')
+        }
       }
-    }
+    })()
   }, [currentUser])
 
   return (
     <Container>
       <div className="container">
-        <Contacts contacts={contacts} />
+        <Contacts contacts={contacts} currentUser={currentUser} />
       </div>
     </Container>
   )

@@ -33,7 +33,7 @@ export const SetAvatar = () => {
       console.log('arrancando')
       const user = await JSON.parse(reactKey)
       console.log('segundo')
-      const { data } = await axios.post(`${SetAvatarRoute}/${user._id}`, {
+      const { data } = await axios.post(`${SetAvatarRoute}/${user.id}`, {
         image: avatars[selectedAvatar]
       })
       console.log(data)
